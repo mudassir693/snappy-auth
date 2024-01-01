@@ -1,0 +1,3 @@
+1. create user model
+2. authentication completed,
+3. prisma setup with PSQL
