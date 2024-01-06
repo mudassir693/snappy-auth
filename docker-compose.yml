@@ -10,15 +10,15 @@ services:
       - POSTGRES_PASSWORD=click123 # Corrected the variable name
       - POSTGRES_DB=snappy
 
-  snappy-server:
-    build:
-      context: .
-    container_name: snappy-auth-server
-    ports:
-      - '3000:3000'
-    restart: always
-    depends_on:
-      - snappy-db
-    command: ["npm", "run","start:dev"]
-    env_file:
-      - ./.env
+  # snappy-server:
+  #   build:
+  #     context: .
+  #   container_name: snappy-auth-server
+  #   ports:
+  #     - '3000:3000'
+  #   restart: always
+  #   depends_on:
+  #     - snappy-db
+  #   command: ["npm", "run","start:dev"]
+  #   env_file:
+  #     - ./.env

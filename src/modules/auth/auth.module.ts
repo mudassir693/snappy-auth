@@ -4,9 +4,10 @@ import { DatabaseModule } from "src/database/database.module";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { RmqModule } from "src/rabbitmq/rabbitmq.module";
+import { MailModule } from "src/mail/mail.module";
 
 @Module({
-  imports: [RmqModule.register({name: 'KITCHEN'}), DatabaseModule, PassportModule],
+  imports: [RmqModule.register({name: 'KITCHEN'}), DatabaseModule, PassportModule, MailModule],
   providers: [AuthService],
   controllers: [AuthController],
   exports: [AuthService] 

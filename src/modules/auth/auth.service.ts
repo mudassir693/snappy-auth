@@ -4,16 +4,19 @@ import { JwtService } from "@nestjs/jwt";
 import { ClientProxy } from "@nestjs/microservices";
 import { Staff, User } from "@prisma/client";
 import { DatabaseService } from "src/database/database.service";
+import { MailService } from "src/mail/mail.service";
 
 @Injectable()
 export class AuthService {
-    constructor(private _dbService: DatabaseService, private _jwtService: JwtService, private _configService: ConfigService, @Inject("KITCHEN") private _kitchenClient: ClientProxy){}
+    constructor(private _dbService: DatabaseService, private _jwtService: JwtService, private _configService: ConfigService, @Inject("KITCHEN") private _kitchenClient: ClientProxy, private _mailService: MailService){}
  
     async SignUp(user_data: any){
         try {
+            await this._mailService.AccountConfirmationEmail("Mudassir","asdad")
+            return
             let is_user_exist;
             try {
-                is_user_exist = this._dbService.user.findUnique({where: {email: user_data.email}}) 
+                is_user_exist = await this._dbService.user.findUnique({where: {email: user_data.email}}) 
             } catch (error) {
                 throw new BadRequestException(error)   
             }
@@ -113,9 +116,9 @@ export class AuthService {
         }
     }
 
-    async GetRefreshToken(data: {email: string, id: string, admin: boolean, staff: boolean}){
+    async GetRefreshToken(data: {email: string, id: string, admin: string, staff: string}){
         try {
-            if(!data.admin && !data.staff){
+            if(data.admin=='false' && data.staff=='false'){
                 let user = await this._dbService.user.findFirst({where: {id: parseInt(data.id), email:data.email}})
                 if(!user){
                     throw new UnauthorizedException("User not found")
