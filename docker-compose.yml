@@ -7,7 +7,7 @@ services:
       - '5432:5432'
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=click123 # Corrected the variable name
+      - POSTGRES_PASSWORD=click123
       - POSTGRES_DB=snappy
 
   # snappy-server:

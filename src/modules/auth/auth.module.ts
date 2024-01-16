@@ -7,7 +7,7 @@ import { RmqModule } from "src/rabbitmq/rabbitmq.module";
 import { MailModule } from "src/mail/mail.module";
 
 @Module({
-  imports: [RmqModule.register({name: 'KITCHEN'}), DatabaseModule, PassportModule, MailModule],
+  imports: [RmqModule.register({name: 'KITCHEN'}), RmqModule.register({name: 'BILLING'}), DatabaseModule, PassportModule, MailModule],
   providers: [AuthService],
   controllers: [AuthController],
   exports: [AuthService] 

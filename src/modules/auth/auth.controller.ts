@@ -14,6 +14,7 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('/login')
     async SignIn(@Request() req: any){
+        console.log(req.user)
         return this._authService.Login(req.user)
     }
 
@@ -25,11 +26,22 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('/staff/login')
     async StaffSignIn(@Request() req: any){
+        console.log(req.user)
         return this._authService.StaffLogin(req.user)
     }
 
     @Get('/refresh_token')
     async GetRefreshToken(@Query() data: any): Promise<String>{
         return await this._authService.GetRefreshToken(data)
+    }
+
+    @Post('otp-verification')
+    async VerifyOtp(@Body() data: {code: string, user_id: number}){
+        return await this._authService.VerifyOtp(data)
+    }
+
+    @Post('regenerate-otp')
+    async RegenerateOtp(@Body() data: {user_id: number}){
+        return await this._authService.RegenerateOtp(data)
     }
 }
