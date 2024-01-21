@@ -53,21 +53,25 @@ export class AuthService {
       this._billingClient.emit("user_created", {
         user_id: user.id,
       })
+
       let email_payload = {
         name: user_data.name,
         email: user.email,
         code: generateOtp(),
       };
 
-      await this._dbService.otp.create({
-        data: {
-          code: email_payload.code,
-          user_id: user.id,
-          expires_at: fiveMinutesFromNow().toISOString(),
-        },
-      });
+      try {
+        await this._dbService.otp.create({
+          data: {
+            code: email_payload.code,
+            user_id: user.id,
+            expires_at: fiveMinutesFromNow().toISOString(),
+          },
+        });
+      } catch (error) {
+        console.warn('WARN: ',error)
+      }
 
-      this._mailService.AccountConfirmationEmail(email_payload);
 
       if (user) {
         return {
